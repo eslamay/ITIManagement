@@ -1,3 +1,4 @@
+using ITIManagement.BLL.Services;
 using ITIManagement.DAL.Data;
 using ITIManagement.DAL.Interfaces;
 using ITIManagement.DAL.Repositories;
@@ -16,7 +17,9 @@ namespace ITIManagement.UI
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+            builder.Services.AddScoped<ISessionService, SessionService>();
             builder.Services.AddScoped<IGradeRepository, GradeRepository>();
+            builder.Services.AddScoped<IGradeService, GradeService>();
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 
             //Add DbContext

@@ -1,7 +1,6 @@
 ﻿using ITIManagement.BLL.ViewModels;
-using ITIManagement.DAL.Data;
+using ITIManagement.DAL.Interfaces;
 using ITIManagement.DAL.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,30 +8,37 @@ namespace ITIManagement.BLL.Services
 {
     public class SessionService : ISessionService
     {
-        private readonly AppDbContext _context;
+        private readonly ISessionRepository _sessionRepository;
 
-        public SessionService(AppDbContext context)
+        public SessionService(ISessionRepository sessionRepository)
         {
-            _context = context;
+            _sessionRepository = sessionRepository;
         }
 
+        
+        public IEnumerable<SessionVM> GetAll(string search, int pageNumber, int pageSize)
+        {
+            var sessions = _sessionRepository.GetAll(search, pageNumber, pageSize);
+
+            return sessions.Select(s => new SessionVM
+            {
+                Id = s.Id,
+                CourseId = s.CourseId ?? 0,
+                CourseName = s.Course != null ? s.Course.Name : string.Empty,
+                StartDate = s.StartDate,
+                EndDate = s.EndDate
+            }).ToList();
+        }
+
+        
         public IEnumerable<SessionVM> GetAll()
         {
-            return _context.Sessions
-                           .Select(s => new SessionVM
-                           {
-                               Id = s.Id,
-                               CourseId = s.CourseId ?? 0,
-                               CourseName = s.Course != null ? s.Course.Name : string.Empty,
-                               StartDate = s.StartDate,
-                               EndDate = s.EndDate
-                           })
-                           .ToList();
+            return GetAll("", 1, int.MaxValue);
         }
 
         public SessionVM? GetById(int id)
         {
-            var session = _context.Sessions.FirstOrDefault(s => s.Id == id);
+            var session = _sessionRepository.GetById(id);
             if (session == null) return null;
 
             return new SessionVM
@@ -54,30 +60,25 @@ namespace ITIManagement.BLL.Services
                 EndDate = sessionVm.EndDate
             };
 
-            _context.Sessions.Add(session);
-            _context.SaveChanges();
+            _sessionRepository.Add(session);
         }
 
         public void Update(SessionVM sessionVm)
         {
-            var session = _context.Sessions.FirstOrDefault(s => s.Id == sessionVm.Id);
-            if (session == null) return;
+            var session = new Session
+            {
+                Id = sessionVm.Id,
+                CourseId = sessionVm.CourseId,
+                StartDate = sessionVm.StartDate,
+                EndDate = sessionVm.EndDate
+            };
 
-            session.CourseId = sessionVm.CourseId;
-            session.StartDate = sessionVm.StartDate;
-            session.EndDate = sessionVm.EndDate;
-
-            _context.Sessions.Update(session);
-            _context.SaveChanges();
+            _sessionRepository.Update(session);
         }
 
         public void Delete(int id)
         {
-            var session = _context.Sessions.FirstOrDefault(s => s.Id == id);
-            if (session == null) return;
-
-            _context.Sessions.Remove(session);
-            _context.SaveChanges();
+            _sessionRepository.Delete(id);
         }
     }
 }

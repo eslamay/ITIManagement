@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-
-using global::ITIManagement.BLL.ViewModels;
-using global::ITIManagement.DAL.Data;
-using global::ITIManagement.DAL.Models;
+﻿using ITIManagement.BLL.ViewModels;
+using ITIManagement.DAL.Interfaces;
+using ITIManagement.DAL.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,11 +8,11 @@ namespace ITIManagement.BLL.Services
 {
     public class GradeService : IGradeService
     {
-        private readonly AppDbContext _context;
+        private readonly IGradeRepository _gradeRepository;
 
-        public GradeService(AppDbContext context)
+        public GradeService(IGradeRepository gradeRepository)
         {
-            _context = context;
+            _gradeRepository = gradeRepository;
         }
 
         public void RecordGrade(GradeVM gradeVm)
@@ -32,41 +24,38 @@ namespace ITIManagement.BLL.Services
                 TraineeId = gradeVm.TraineeId
             };
 
-            _context.Grades.Add(grade);
-            _context.SaveChanges();
+            _gradeRepository.Add(grade);
         }
 
         public IEnumerable<GradeVM> GetGradesBySession(int sessionId)
         {
-            return _context.Grades
-                .Where(g => g.SessionId == sessionId)
-                .Select(g => new GradeVM
-                {
-                    Id = g.Id,
-                    Value = g.Value,
-                    SessionId = g.SessionId ?? 0,
-                    TraineeId = g.TraineeId,
-                    TraineeName = g.Trainee != null ? g.Trainee.Name : null
-                })
-                .ToList();
+            var grades = _gradeRepository
+                .GetAll("", 1, int.MaxValue) 
+                .Where(g => g.SessionId == sessionId);
+
+            return grades.Select(g => new GradeVM
+            {
+                Id = g.Id,
+                Value = g.Value,
+                SessionId = g.SessionId ?? 0,
+                TraineeId = g.TraineeId,
+                TraineeName = g.Trainee != null ? g.Trainee.Name : null
+            }).ToList();
         }
 
         public IEnumerable<GradeVM> GetGradesByTrainee(int traineeId)
         {
-            return _context.Grades
-                .Where(g => g.TraineeId == traineeId)
-                .Select(g => new GradeVM
-                {
-                    Id = g.Id,
-                    Value = g.Value,
-                    SessionId = g.SessionId ?? 0,
-                    CourseName = g.Session != null ? g.Session.Course!.Name : null
-                })
-                .ToList();
+            var grades = _gradeRepository
+                .GetAll("", 1, int.MaxValue) 
+                .Where(g => g.TraineeId == traineeId);
+
+            return grades.Select(g => new GradeVM
+            {
+                Id = g.Id,
+                Value = g.Value,
+                SessionId = g.SessionId ?? 0,
+                CourseName = g.Session != null ? g.Session.Course!.Name : null
+            }).ToList();
         }
     }
 }
-
-
-
-
