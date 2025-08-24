@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc;
+
 
 namespace ITIManagement.DAL.Models
 {
@@ -9,7 +11,7 @@ namespace ITIManagement.DAL.Models
 
 		[Required]
 		[StringLength(50, MinimumLength = 3)]
-        
+        [Remote(action: "IsCourseNameAvailable", controller: "Courses", ErrorMessage = "Course name already exists.")]
         public string Name { get; set; }=default!;
 
 		[Required]

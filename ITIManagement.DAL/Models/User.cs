@@ -1,5 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+
+
 
 namespace ITIManagement.DAL.Models
 {
@@ -15,7 +18,8 @@ namespace ITIManagement.DAL.Models
 
 		[Required]
 		[StringLength(50, MinimumLength = 3)]
-		public string Name { get; set; }=default!;
+        [Remote(action: "IsEmailAvailable", controller: "Users", AdditionalFields = "Id", ErrorMessage = "Email already exists.")]
+        public string Name { get; set; }=default!;
 
 		[Required]
 		[EmailAddress]

@@ -41,7 +41,7 @@ namespace ITIManagement.UI
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Courses}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             app.Run();
