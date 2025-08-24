@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 using ITIManagement.BLL.Services.UserServices;
+=======
+using ITIManagement.BLL.Services;
+>>>>>>> 13f96992f36192852af5becce64583f651ae16af
 using ITIManagement.DAL.Data;
 using ITIManagement.DAL.Interfaces;
 using ITIManagement.DAL.Repositories;
@@ -17,7 +21,9 @@ namespace ITIManagement.UI
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+            builder.Services.AddScoped<ISessionService, SessionService>();
             builder.Services.AddScoped<IGradeRepository, GradeRepository>();
+            builder.Services.AddScoped<IGradeService, GradeService>();
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 
             builder.Services.AddScoped<IUserService, UserService>();

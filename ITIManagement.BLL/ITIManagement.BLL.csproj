@@ -9,6 +9,8 @@
   <ItemGroup>
     <Folder Include="ViewModels\" />
     <Folder Include="Services\" />
+    <Folder Include="Validations\" />
+    <Folder Include="Pagination\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +20,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ITIManagement.DAL\ITIManagement.DAL.csproj" />
   </ItemGroup>
 
 </Project>
