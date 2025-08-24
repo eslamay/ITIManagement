@@ -21,7 +21,7 @@ namespace ITIManagement.UI.Controllers
         // Remote Validation for Email
         public JsonResult IsEmailAvailable(string email, int id = 0)
         {
-            var user = _userRepository.GetByName(email); 
+            var user = _userRepository.GetByEmail(email); 
             if (user != null && user.Id != id)
                 return Json($"Email '{email}' is already in use.");
 

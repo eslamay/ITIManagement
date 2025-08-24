@@ -1,8 +1,7 @@
-<<<<<<< HEAD
+
 using ITIManagement.BLL.Services.UserServices;
-=======
+
 using ITIManagement.BLL.Services;
->>>>>>> 13f96992f36192852af5becce64583f651ae16af
 using ITIManagement.DAL.Data;
 using ITIManagement.DAL.Interfaces;
 using ITIManagement.DAL.Repositories;
