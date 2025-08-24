@@ -1,3 +1,4 @@
+using ITIManagement.BLL.Services.UserServices;
 using ITIManagement.DAL.Data;
 using ITIManagement.DAL.Interfaces;
 using ITIManagement.DAL.Repositories;
@@ -18,6 +19,8 @@ namespace ITIManagement.UI
             builder.Services.AddScoped<ISessionRepository, SessionRepository>();
             builder.Services.AddScoped<IGradeRepository, GradeRepository>();
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+
+            builder.Services.AddScoped<IUserService, UserService>();
 
             //Add DbContext
             builder.Services.AddDbContext<AppDbContext>(options =>
@@ -41,7 +44,7 @@ namespace ITIManagement.UI
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Courses}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             app.Run();

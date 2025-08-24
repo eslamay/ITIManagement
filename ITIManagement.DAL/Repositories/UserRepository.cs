@@ -1,6 +1,7 @@
 ﻿using ITIManagement.DAL.Data;
 using ITIManagement.DAL.Interfaces;
 using ITIManagement.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace ITIManagement.DAL.Repositories
 
         public IEnumerable<User> GetAll(string search, int pageNumber, int pageSize)
         {
-            var query = _context.Users.AsQueryable();
+            var query = _context.Users.Include(u=>u.Courses).Include(u=>u.Grades).AsQueryable();
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -33,17 +34,27 @@ namespace ITIManagement.DAL.Repositories
                 .ToList();
         }
 
-        public User GetById(int id)
+		public int GetCount(string? searchName = null)
+		{
+			var query = _context.Users.AsNoTracking();
+			if (!string.IsNullOrEmpty(searchName))
+			{
+				query = query.Where(x => x.Name.Contains(searchName));
+			}
+			return query.Count();
+		}
+
+		public User GetById(int id)
         {
-            return _context.Users.FirstOrDefault(u => u.Id == id);
+            return _context.Users.Include(u => u.Courses).Include(u => u.Grades).FirstOrDefault(u => u.Id == id);
         }
 
-        public User GetByName(string name)
-        {
-            return _context.Users.FirstOrDefault(u => u.Name == name);
-        }
+		public User GetByEmail(string email)
+		{
+			return _context.Users.FirstOrDefault(u => u.Email == email);
+		}
 
-        public void Add(User user)
+		public void Add(User user)
         {
             _context.Users.Add(user);
             _context.SaveChanges();
