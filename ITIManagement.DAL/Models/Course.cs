@@ -9,7 +9,8 @@ namespace ITIManagement.DAL.Models
 
 		[Required]
 		[StringLength(50, MinimumLength = 3)]
-		public string Name { get; set; }=default!;
+        
+        public string Name { get; set; }=default!;
 
 		[Required]
 		public string Category { get; set; }=default!;

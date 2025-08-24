@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ITIManagement.DAL.Repositories
 {
-    internal class CourseRepository : ICourseRepository
+    public class CourseRepository : ICourseRepository
     {
    
             private readonly AppDbContext _context;

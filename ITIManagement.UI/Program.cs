@@ -1,4 +1,6 @@
 using ITIManagement.DAL.Data;
+using ITIManagement.DAL.Interfaces;
+using ITIManagement.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace ITIManagement.UI
@@ -12,8 +14,13 @@ namespace ITIManagement.UI
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-			//Add DbContext
-			builder.Services.AddDbContext<AppDbContext>(options =>
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+            builder.Services.AddScoped<IGradeRepository, GradeRepository>();
+            builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+
+            //Add DbContext
+            builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 			var app = builder.Build();

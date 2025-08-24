@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ITIManagement.DAL.Repositories
 {
-    internal class SessionRepository : ISessionRepository
+    public class SessionRepository : ISessionRepository
     {
 
       
