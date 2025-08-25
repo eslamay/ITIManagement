@@ -1,5 +1,5 @@
 ﻿using ITIManagement.BLL.Pagination;
-using ITIManagement.BLL.ViewModels.Course;
+using ITIManagement.BLL.ViewModels.CourseVM;
 using ITIManagement.DAL.Data;
 using ITIManagement.DAL.Interfaces;
 using ITIManagement.DAL.Models;

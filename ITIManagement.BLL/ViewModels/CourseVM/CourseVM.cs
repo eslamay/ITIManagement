@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ITIManagement.BLL.ViewModels.Course
+namespace ITIManagement.BLL.ViewModels.CourseVM
 {
     public class CourseVM
     {
