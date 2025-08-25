@@ -13,7 +13,7 @@ namespace ITIManagement.BLL.ViewModels
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Course is required")]
-        public int CourseId { get; set; }
+        public int Course_category  { get; set; }
 
         [Required(ErrorMessage = "Start Date is required")]
         [DataType(DataType.Date)]

@@ -1,11 +1,11 @@
 ﻿@model ITIManagement.BLL.ViewModels.SessionVM
 
 <div class="form-group">
-    <label asp-for="CourseId" class="control-label"></label>
-    <select asp-for="CourseId" asp-items="Model.Courses" class="form-control">
+    <label asp-for="Course_category" class="control-label"></label>
+    <select asp-for="Course_category" asp-items="Model.Courses" class="form-control">
         <option value=""> Select Course </option>
     </select>
-    <span asp-validation-for="CourseId" class="text-danger"></span>
+    <span asp-validation-for="Course_category" class="text-danger"></span>
 </div>
 
 

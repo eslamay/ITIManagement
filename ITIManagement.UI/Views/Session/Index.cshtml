@@ -1,8 +1,8 @@
 ﻿@model ITIManagement.BLL.Pagination.PageResult<ITIManagement.BLL.ViewModels.SessionVM>
 @{
     ViewData["Title"] = "Sessions";
+    var searchQuery = Context.Request.Query["search"].ToString();
 }
-
 
 @if (TempData["SuccessMessage"] != null)
 {
@@ -18,7 +18,6 @@
     </div>
 }
 
-
 <h2>Sessions</h2>
 
 <p>
@@ -26,7 +25,7 @@
 </p>
 
 <form method="get" asp-action="Index" class="mb-2">
-    <input type="text" name="search" class="form-control" placeholder="Search by Course Name" style="width:300px; display:inline-block;" />
+    <input type="text" name="search" value="@searchQuery" class="form-control" placeholder="Search by Course Name" style="width:300px; display:inline-block;" />
     <button type="submit" class="btn btn-outline-primary">Search</button>
 </form>
 
@@ -49,37 +48,31 @@
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Details</a>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-success btn-sm">Edit</a>
-
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
-
-
-
-
-
-
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
 <nav>
     <ul class="pagination">
         @if (Model.HasPrevious)
         {
             <li class="page-item">
-                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.Page - 1)">Previous</a>
+                <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page - 1)" asp-route-search="@searchQuery">Previous</a>
             </li>
         }
         @for (int i = 1; i <= Model.TotalPages; i++)
         {
             <li class="page-item @(i == Model.Page ? "active" : "")">
-                <a class="page-link" asp-action="Index" asp-route-pageNumber="@i">@i</a>
+                <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-search="@searchQuery">@i</a>
             </li>
         }
         @if (Model.HasNext)
         {
             <li class="page-item">
-                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.Page + 1)">Next</a>
+                <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page + 1)" asp-route-search="@searchQuery">Next</a>
             </li>
         }
     </ul>
@@ -87,5 +80,4 @@
     <p>
         <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to Home</a>
     </p>
-
 </nav>

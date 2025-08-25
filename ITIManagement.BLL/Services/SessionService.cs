@@ -23,7 +23,7 @@ namespace ITIManagement.BLL.Services
             return sessions.Select(s => new SessionVM
             {
                 Id = s.Id,
-                CourseId = s.CourseId ?? 0,
+                Course_category = s.CourseId ?? 0,
                 CourseName = s.Course != null ? s.Course.Name : string.Empty,
                 StartDate = s.StartDate,
                 EndDate = s.EndDate
@@ -44,7 +44,7 @@ namespace ITIManagement.BLL.Services
             return new SessionVM
             {
                 Id = session.Id,
-                CourseId = session.CourseId ?? 0,
+                Course_category = session.CourseId ?? 0,
                 CourseName = session.Course != null ? session.Course.Name : string.Empty,
                 StartDate = session.StartDate,
                 EndDate = session.EndDate
@@ -55,7 +55,7 @@ namespace ITIManagement.BLL.Services
         {
             var session = new Session
             {
-                CourseId = sessionVm.CourseId,
+                CourseId = sessionVm.Course_category,
                 StartDate = sessionVm.StartDate,
                 EndDate = sessionVm.EndDate
             };
@@ -68,7 +68,7 @@ namespace ITIManagement.BLL.Services
             var session = new Session
             {
                 Id = sessionVm.Id,
-                CourseId = sessionVm.CourseId,
+                CourseId = sessionVm.Course_category,
                 StartDate = sessionVm.StartDate,
                 EndDate = sessionVm.EndDate
             };
