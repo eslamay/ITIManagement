@@ -19,16 +19,17 @@ namespace ITIManagement.DAL.Repositories
                 _context = context;
             }
 
-            public IEnumerable<Course> GetAll(string search, int pageNumber, int pageSize)
-            {
-                return _context.Courses
-                    .Where(c => string.IsNullOrEmpty(search) || c.Name.Contains(search))
-                    .Skip((pageNumber - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList();
-            }
+        public IEnumerable<Course> GetAll(string search, int pageNumber, int pageSize)
+        {
+            return _context.Courses
+                .Where(c => string.IsNullOrEmpty(search) || c.Name.Contains(search))
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+        }
 
-            public Course GetById(int id)
+
+        public Course GetById(int id)
             {
                 return _context.Courses.Find(id);
             }
@@ -59,6 +60,13 @@ namespace ITIManagement.DAL.Repositories
                     _context.SaveChanges();
                 }
             }
+        public int GetCount(string? search)
+        {
+            return _context.Courses
+                .Where(c => string.IsNullOrEmpty(search) || c.Name.Contains(search))
+                .Count();
         }
+
     }
+}
 
