@@ -24,6 +24,7 @@ namespace ITIManagement.UI
             builder.Services.AddScoped<IGradeRepository, GradeRepository>();
             builder.Services.AddScoped<IGradeService, GradeService>();
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+            builder.Services.AddScoped<IGradeService, GradeService>();
 
             builder.Services.AddScoped<IUserService, UserService>();
 
