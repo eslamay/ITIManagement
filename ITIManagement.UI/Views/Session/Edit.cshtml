@@ -1,0 +1,14 @@
+﻿@model ITIManagement.BLL.ViewModels.SessionVM
+@{
+    ViewData["Title"] = "Edit Session";
+}
+
+<h2>Edit Session</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <partial name="_SessionForm" model="Model" />
+
+    <button type="submit" class="btn btn-success">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
