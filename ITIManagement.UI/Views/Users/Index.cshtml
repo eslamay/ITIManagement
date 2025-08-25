@@ -1,5 +1,73 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using ITIManagement.BLL.Pagination;﻿
+@using ITIManagement.BLL.ViewModels.UserVM
+@using ITIManagement.DAL.Models
+@model PageResult<UserVM>
+
 @{
+    var categories = ViewBag.Categories as IEnumerable<UserRole>;
+}
+<h2 class="mb-4">Users</h2>
+
+@await Html.PartialAsync("_Notification")
+
+
+<form method="get" class="form-inline mb-2">
+    <div class="input-group" style="width:400px">
+        <input type="text" name="searchName" value="@ViewBag.SearchName" placeholder="Search" class="form-control" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+
+<table class="table table-borderless">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Items)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.Name</td>
+                <td>@user.Email</td>
+                <td>@user.Role</td>
+                <td>
+                    <a asp-action="GetById" asp-route-id="@user.Id" class="btn btn-secondary">Details</a>
+                    <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-primary" style="display:inline;">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>Page @Model.Page of @Model.TotalPages</div>
+@if (Model.TotalPages > 1)
+{
+    <nav>
+        <ul class="pagination">
+            <li class="page-item me-2 @(Model.HasPrevious ? "" : "disabled")">
+                <a asp-action="Index" asp-route-page="@(Model.Page - 1)" class="page-link" asp-route-searchName="@ViewBag.SearchName">Previous</a>
+            </li>
+            @for (var i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item mx-1">
+                    <a asp-action="Index" asp-route-page="@i" class="page-link @(i == Model.Page ? "active" : "")" asp-route-searchName="@ViewBag.SearchName">@i</a>
+                </li>
+            }
+            <li class="page-item me-2 @(Model.HasNext ? "" : "disabled")">
+                <a asp-action="Index" asp-route-page="@(Model.Page + 1)" class="page-link" asp-route-searchName="@ViewBag.SearchName">Next</a>
+            </li>
+        </ul>
+    </nav>
 }

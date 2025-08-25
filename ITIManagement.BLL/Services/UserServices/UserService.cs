@@ -65,7 +65,7 @@ namespace ITIManagement.BLL.Services.UserServices
 		public void Add(CreateUserVM createUserVM)
 		{
 			if (userRepository.GetByEmail(createUserVM.Email) != null)
-				throw new Exception("Email already exists!");
+				return;
 
 			var user = new User
 			{
@@ -82,7 +82,7 @@ namespace ITIManagement.BLL.Services.UserServices
 
 			var existing = userRepository.GetByEmail(editUserVM.Email);
 			if (existing != null && existing.Id != id)
-				throw new Exception("Email already exists!");
+				return false;
 
 			if (user == null)
 			{

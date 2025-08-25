@@ -6,6 +6,7 @@ using ITIManagement.DAL.Data;
 using ITIManagement.DAL.Interfaces;
 using ITIManagement.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
+using ITIManagement.UI.Configurations;
 
 namespace ITIManagement.UI
 {
@@ -30,6 +31,8 @@ namespace ITIManagement.UI
             //Add DbContext
             builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+			builder.Services.Configure<UserSettings>(builder.Configuration.GetSection(nameof(UserSettings)));
 
 			var app = builder.Build();
 

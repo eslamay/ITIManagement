@@ -1,0 +1,18 @@
+﻿@using ITIManagement.BLL.ViewModels.UserVM
+@using ITIManagement.DAL.Models
+@model EditUserVM
+
+<h2>Edit User</h2>
+
+<form asp-action="Edit" method="post">
+
+
+    @Html.Partial("_UserForm", Model)
+
+    <button type="submit" class="btn btn-primary mt-3">Edit</button>
+</form>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

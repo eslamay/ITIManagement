@@ -1,0 +1,56 @@
+﻿@using ITIManagement.BLL.ViewModels.UserVM
+@model UserDetailsVM
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-white text-black">
+            <h2 class="text-center">Course Details</h2>
+        </div>
+        <div class="card-body">
+            <p class="mb-3"><strong>Name:</strong> @Model.Name</p>
+            <p class="mb-3"><strong>Email:</strong> @Model.Email</p>
+            <p class="mb-3"><strong>Role:</strong> @Model.Role</p>
+            <p class="mb-3"><strong>Course:</strong>
+                @if (Model.Courses != null)
+                {
+                    <ul>
+                @foreach (var course in Model.Courses)
+                 {
+                    <li>@course.Name</li>
+                }
+				</ul>
+                }
+                else
+				{
+				<p>No courses found.</p>
+				}
+            </p>
+            <p class="mb-3"><strong>Grades:</strong>
+                @if (Model.Courses != null)
+                {
+					<ul>
+                    @foreach (var grade in Model.Grades)
+                    {
+                        <li>@grade.Value</li>
+                    }
+					</ul>
+                }
+                else
+                {
+                <p>No grades found.</p>
+                }
+                </p>
+        </div>
+        <div class="card-footer text-center">
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger"
+                        onclick="return confirm('Are you sure you want to delete this user?')">
+                    Delete
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
