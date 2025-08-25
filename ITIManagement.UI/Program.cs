@@ -1,7 +1,7 @@
 
-using ITIManagement.BLL.Services.UserServices;
-
 using ITIManagement.BLL.Services;
+using ITIManagement.BLL.Services.CourseService;
+using ITIManagement.BLL.Services.UserServices;
 using ITIManagement.DAL.Data;
 using ITIManagement.DAL.Interfaces;
 using ITIManagement.DAL.Repositories;
@@ -25,6 +25,9 @@ namespace ITIManagement.UI
             builder.Services.AddScoped<IGradeRepository, GradeRepository>();
             builder.Services.AddScoped<IGradeService, GradeService>();
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+            builder.Services.AddScoped<ICourseService, CourseService>();
+
+            builder.Services.AddScoped<IGradeService, GradeService>();
 
             builder.Services.AddScoped<IUserService, UserService>();
 

@@ -1,0 +1,13 @@
+﻿@model ITIManagement.BLL.ViewModels.SessionVM
+@{
+    ViewData["Title"] = "Create Session";
+}
+
+<h2>Create New Session</h2>
+
+<form asp-action="Create" method="post">
+    <partial name="_SessionForm" model="Model" />
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
