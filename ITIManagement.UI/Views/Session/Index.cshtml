@@ -3,6 +3,22 @@
     ViewData["Title"] = "Sessions";
 }
 
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+
 <h2>Sessions</h2>
 
 <p>
@@ -67,4 +83,9 @@
             </li>
         }
     </ul>
+
+    <p>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to Home</a>
+    </p>
+
 </nav>
