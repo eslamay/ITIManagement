@@ -1,0 +1,28 @@
+﻿@model IEnumerable<ITIManagement.BLL.ViewModels.GradeVM>
+
+<h2>Grades By Trainee</h2>
+
+@if (!Model.Any())
+{
+    <p>No grades found.</p>
+}
+else
+{
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Trainee Name</th>
+                <th>Grade Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var grade in Model)
+            {
+                <tr>
+                    <td>@grade.TraineeName</td>
+                    <td>@grade.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

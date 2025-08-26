@@ -1,0 +1,29 @@
+﻿@model ITIManagement.BLL.ViewModels.GradeVM
+
+<h2>Delete Grade</h2>
+
+<div class="alert alert-danger">
+    <p>Are you sure you want to delete this grade?</p>
+</div>
+
+<div class="form-group">
+    <label>Trainee:</label>
+    <input class="form-control" value="@Model.TraineeName" disabled />
+</div>
+
+<div class="form-group">
+    <label>Session / Course:</label>
+    <input class="form-control" value="@Model.CourseName" disabled />
+</div>
+
+<div class="form-group">
+    <label>Grade Value:</label>
+    <input class="form-control" value="@Model.Value" disabled />
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger mt-2">Yes, Delete</button>
+    <a asp-action="BySession" class="btn btn-secondary mt-2">Cancel</a>
+   
+</form>
