@@ -1,44 +1,13 @@
 ﻿@model IEnumerable<ITIManagement.BLL.ViewModels.GradeVM>
 
-
 <h2>All Grades</h2>
 
-@if (!Model.Any())
-{
-    <p>No grades found.</p>
-}
-else
-{
-    <table class="table table-bordered mt-3">
-        <thead>
-            <tr>
-                <th>Trainee Name</th>
-                <th>Session / Course</th>
-                <th>Grade Value</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var grade in Model)
-            {
-                <tr>
-                    <td>@grade.TraineeName</td>
-                    <td>@grade.SessionName</td>
-                    <td>@grade.Value</td>
-                    <td>
-                        
+<form method="get" asp-action="AllGrades">
+    <div class="form-group">
+        <input type="text" name="searchName" class="form-control" placeholder="Search by trainee name..."
+               value="@ViewBag.SearchName" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Search</button>
+</form>
 
-                        <form asp-action="Delete" asp-route-id="@grade.Id" method="post" style="display:inline"
-                              onsubmit="return confirm('Are you sure you want to delete this grade?');">
-                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                        </form>
-
-                        <a asp-action="Edit" asp-route-id="@grade.Id" class="btn btn-sm btn-primary">Edit</a>
-                     
-
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+@Html.Partial("_GradeForm", Model)

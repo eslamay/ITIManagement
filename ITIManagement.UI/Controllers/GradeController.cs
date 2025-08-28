@@ -1,8 +1,10 @@
 ﻿using ITIManagement.BLL.Services;
 using ITIManagement.BLL.ViewModels;
+using ITIManagement.DAL.Data;
 using ITIManagement.DAL.Interfaces;
 using ITIManagement.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace ITIManagement.Web.Controllers
@@ -12,6 +14,7 @@ namespace ITIManagement.Web.Controllers
         private readonly IGradeService _gradeService;
         private readonly IUserRepository _userRepository;
         private readonly ISessionRepository _sessionRepository;
+        private readonly AppDbContext _context;
 
         public GradeController(IGradeService gradeService, ISessionRepository sessionRepository, IUserRepository userRepository)
         {
@@ -71,7 +74,7 @@ namespace ITIManagement.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _gradeService.UpdateGrade(gradeVm); // بدل RecordGrade
+                _gradeService.UpdateGrade(gradeVm); 
                 return RedirectToAction("AllGrades");
             }
 
@@ -95,16 +98,21 @@ namespace ITIManagement.Web.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int Id)
         {
-            _gradeService.DeleteGrade(Id); // لازم تعمل دالة DeleteGrade في السيرفس
+            _gradeService.DeleteGrade(Id); 
             return RedirectToAction("AllGrades");
         }
-        public IActionResult BySession()
+        public IActionResult BySession(int? sessionId)
         {
-          
-            var grades = _gradeService.GetAllGrades().ToList();
+            var grades = _gradeService.GetAllGrades();
+
+            if (sessionId.HasValue)
+            {
+                grades = grades.Where(g => g.SessionId == sessionId.Value).ToList();
+            }
 
             return View(grades);
         }
+
         public IActionResult ByTrainee()
         {
            
@@ -113,10 +121,36 @@ namespace ITIManagement.Web.Controllers
            
             return View("ByTrainee", grades);
         }
-        public IActionResult AllGrades()
+        public IActionResult AllGrades(string searchName, int pageNumber = 1, int pageSize = 5)
         {
-            var grades = _gradeService.GetAllGrades();
-            return View(grades);
+            var grades = _gradeService.GetAllGrades().AsQueryable();
+
+            // البحث بالاسم
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                grades = grades.Where(g => g.TraineeName.Contains(searchName));
+            }
+
+            // عدد الصفحات
+            int totalItems = grades.Count();
+            int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            // احضار البيانات للصفحة الحالية
+            var pagedGrades = grades
+                                .Skip((pageNumber - 1) * pageSize)
+                                .Take(pageSize)
+                                .ToList();
+
+            // إرسال البيانات مع المعلومات المطلوبة للفيو
+            ViewBag.SearchName = searchName;
+            ViewBag.CurrentPage = pageNumber;
+            ViewBag.TotalPages = totalPages;
+
+            return View(pagedGrades);
         }
+
+
+
+
     }
 }
