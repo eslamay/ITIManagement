@@ -19,7 +19,7 @@ namespace ITIManagement.DAL.Repositories
             _context = context;
         }
 
-        public IEnumerable<User> GetAll(string search, int pageNumber, int pageSize)
+        public IEnumerable<User> GetAll(string search, UserRole? role, int pageNumber, int pageSize)
         {
             var query = _context.Users.Include(u=>u.Courses).Include(u=>u.Grades).AsQueryable();
 
@@ -28,19 +28,30 @@ namespace ITIManagement.DAL.Repositories
                 query = query.Where(u => u.Name.Contains(search));
             }
 
-            return query
+			if (role.HasValue)
+			{
+				query = query.Where(u => u.Role == role.Value);
+			}
+
+			return query
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
         }
 
-		public int GetCount(string? searchName = null)
+		public int GetCount(string? searchName = null, UserRole? role = null)
 		{
 			var query = _context.Users.AsNoTracking();
 			if (!string.IsNullOrEmpty(searchName))
 			{
 				query = query.Where(x => x.Name.Contains(searchName));
 			}
+
+			if (role.HasValue)
+			{
+				query = query.Where(x => x.Role == role.Value);
+			}
+
 			return query.Count();
 		}
 

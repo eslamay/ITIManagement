@@ -26,7 +26,7 @@ namespace ITIManagement.Web.Controllers
         [HttpGet]
         public IActionResult Record()
         {
-            ViewBag.Trainees = _userRepository.GetAll("", 1, int.MaxValue)
+            ViewBag.Trainees = _userRepository.GetAll("",null, 1, int.MaxValue)
                                               .Where(u => u.Role == UserRole.Trainee)
                                               .ToList();
 
@@ -45,7 +45,7 @@ namespace ITIManagement.Web.Controllers
             }
 
             // لو فيه خطأ نرجع نفس الفورم مع القيم
-            ViewBag.Trainees = _userRepository.GetAll("", 1, int.MaxValue)
+            ViewBag.Trainees = _userRepository.GetAll("", null,1, int.MaxValue)
                                               .Where(u => u.Role == UserRole.Trainee)
                                               .ToList();
             ViewBag.Sessions = _sessionRepository.GetAll("", 1, int.MaxValue).ToList();
@@ -60,7 +60,7 @@ namespace ITIManagement.Web.Controllers
             if (grade == null)
                 return NotFound();
 
-            ViewBag.Trainees = _userRepository.GetAll("", 1, int.MaxValue)
+            ViewBag.Trainees = _userRepository.GetAll("",null, 1, int.MaxValue)
                                               .Where(u => u.Role == UserRole.Trainee)
                                               .ToList();
 
@@ -79,7 +79,7 @@ namespace ITIManagement.Web.Controllers
             }
 
             ViewBag.Sessions = _sessionRepository.GetAll("", 1, int.MaxValue);
-            ViewBag.Trainees = _userRepository.GetAll("", 1, int.MaxValue)
+            ViewBag.Trainees = _userRepository.GetAll("",null, 1, int.MaxValue)
                                               .Where(u => u.Role == UserRole.Trainee)
                                               .ToList();
             return View(gradeVm);

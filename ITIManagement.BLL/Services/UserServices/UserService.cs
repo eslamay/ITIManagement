@@ -13,9 +13,9 @@ namespace ITIManagement.BLL.Services.UserServices
 		{
 			this.userRepository = userRepository;
 		}
-		public PageResult<UserVM> GetAllPage(int page, int pageSize, string? serachName = null)
+		public PageResult<UserVM> GetAllPage(int page, int pageSize, string? serachName = null, UserRole? role = null)
 		{
-			var items = userRepository.GetAll(serachName!, page, pageSize).Select(
+			var items = userRepository.GetAll(serachName!, role,page, pageSize).Select(
 				u => new UserVM
 				{
 					Id = u.Id,
@@ -24,7 +24,7 @@ namespace ITIManagement.BLL.Services.UserServices
 					Role = u.Role
 				}).ToList();
 
-			var totalCount = userRepository.GetCount(serachName);
+			var totalCount = userRepository.GetCount(serachName,role);
 
 			return new PageResult<UserVM>
 			{

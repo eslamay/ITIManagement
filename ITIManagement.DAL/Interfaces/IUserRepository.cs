@@ -9,9 +9,9 @@ namespace ITIManagement.DAL.Interfaces
 {
     public interface IUserRepository
     {
-        IEnumerable<User> GetAll(string search, int pageNumber, int pageSize);
+        IEnumerable<User> GetAll(string search, UserRole? role, int pageNumber, int pageSize);
         User GetById(int id);
-		int GetCount(string? searchName = null);
+		int GetCount(string? searchName = null, UserRole? role = null);
 		User GetByEmail(string email);
 		void Add(User user);
         void Update(User user);

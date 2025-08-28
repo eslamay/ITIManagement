@@ -10,18 +10,34 @@
 
 @await Html.PartialAsync("_Notification")
 
-
-<form method="get" class="form-inline mb-2">
-    <div class="input-group" style="width:400px">
-        <input type="text" name="searchName" value="@ViewBag.SearchName" placeholder="Search" class="form-control" />
-        <button type="submit" class="btn btn-primary">Search</button>
-    </div>
-</form>
-
-
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">+ Create New</a>
 </p>
+
+<div class="d-flex align-items-center gap-2 mb-3">
+
+    <!-- Search Form -->
+    <form method="get" asp-action="Index" class="d-flex">
+        <div class="input-group" style="width: 300px;">
+            <input type="text" name="searchName" value="@ViewBag.SearchName" placeholder="Search"
+                   class="form-control" />
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+
+    <!-- Role Filter Form -->
+    <form method="get" asp-action="Index" class="d-flex">
+        <div class="input-group">
+            <select name="role" asp-items="ViewBag.Roles" class="form-select">
+                <option value="">All Roles</option>
+            </select>
+            <button type="submit" class="btn btn-secondary">Filter</button>
+        </div>
+    </form>
+
+</div>
+
+
 
 
 <table class="table table-striped">

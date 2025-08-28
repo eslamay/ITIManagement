@@ -7,6 +7,7 @@ using ITIManagement.DAL.Models;
 using ITIManagement.UI.Configurations;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 
 namespace ITIManagement.UI.Controllers
@@ -25,11 +26,16 @@ namespace ITIManagement.UI.Controllers
 			this.options = options;
 		}
 
-		public IActionResult Index(int page = 1, string? searchName = null)
+		public IActionResult Index(int page = 1, UserRole? role=null, string? searchName = null)
 		{
 			int pageSize = options.CurrentValue.DefaultPageSize;
-			var users = userService.GetAllPage(page, pageSize, searchName);
-			ViewBag.Roles = Enum.GetValues(typeof(UserRole)).Cast<UserRole>();
+			var users = userService.GetAllPage(page, pageSize, searchName,role);
+			ViewBag.Roles = Enum.GetValues(typeof(UserRole)).Cast<UserRole>().Select(r => new SelectListItem
+			{
+				Value = r.ToString(),
+				Text = r.ToString(),
+				Selected = role.HasValue && r == role.Value
+			}); ;
 			ViewBag.SearchName = searchName;
 			return View(users);
 		}
