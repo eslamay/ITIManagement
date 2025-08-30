@@ -40,8 +40,10 @@ namespace ITIManagement.UI.Controllers
             if (ModelState.IsValid)
             {
                 _courseService.Add(course);
+                TempData["SuccessMessage"] = "Course has been created successfully!";
                 return RedirectToAction(nameof(Index));
             }
+            TempData["ErrorMessage"] = "Please check the form for errors.";
             return View(course);
         }
         [HttpGet]
@@ -58,6 +60,7 @@ namespace ITIManagement.UI.Controllers
             if (ModelState.IsValid)
             {
                 _courseService.Update(course);
+                TempData["Success"] = "Course updated successfully!";
                 return RedirectToAction(nameof(Index));
             }
             return View(course);
@@ -73,6 +76,7 @@ namespace ITIManagement.UI.Controllers
         public IActionResult DeleteConfirmed(int id)
         {
             _courseService.Delete(id);
+            TempData["Success"] = "Course deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
         [HttpPost]
