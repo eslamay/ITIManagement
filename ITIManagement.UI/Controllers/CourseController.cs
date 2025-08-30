@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ITIManagement.UI.Controllers
 {
-    public class CoursesController : Controller
+    public class CourseController : Controller
     {
         private readonly ICourseRepository _courseRepository;
         private readonly ICourseService _courseService;
-        public CoursesController(ICourseRepository courseRepository, ICourseService courseService)
+        public CourseController(ICourseRepository courseRepository, ICourseService courseService)
         {
             _courseRepository = courseRepository;
             _courseService = courseService;
