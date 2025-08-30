@@ -1,7 +1,10 @@
 ﻿using ITIManagement.BLL.Services.CourseService;
+using ITIManagement.BLL.ViewModels.CourseVM;
 using ITIManagement.DAL.Interfaces;
 using ITIManagement.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace ITIManagement.UI.Controllers
@@ -16,9 +19,9 @@ namespace ITIManagement.UI.Controllers
             _courseService = courseService;
         }
 
-        public IActionResult Index(int page = 1, int? pageSize = null, string? searchName = null)
+        public IActionResult Index(int page = 1, int pageSize = 5, string? searchName = null)
         {
-            var result = _courseService.GetPaged(page, pageSize ?? 5, searchName);
+            var result = _courseService.GetPaged(page, pageSize, searchName);
             ViewBag.SearchName = searchName;
             return View(result);
         }
@@ -28,55 +31,78 @@ namespace ITIManagement.UI.Controllers
             if (course == null) return NotFound();
             return View(course);
         }
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        
-        public IActionResult Create(Course course)
-        {
-            if (ModelState.IsValid)
-            {
-                _courseService.Add(course);
-                TempData["SuccessMessage"] = "Course has been created successfully!";
-                return RedirectToAction(nameof(Index));
-            }
-            TempData["ErrorMessage"] = "Please check the form for errors.";
-            return View(course);
-        }
-        [HttpGet]
-        public IActionResult Edit(int id)
-        {
-            var course = _courseService.GetById(id);
-            if (course == null) return NotFound();
-            return View(course);
-        }
-        [HttpPost]
-     
-        public IActionResult Edit(Course course)
-        {
-            if (ModelState.IsValid)
-            {
-                _courseService.Update(course);
-                TempData["Success"] = "Course updated successfully!";
-                return RedirectToAction(nameof(Index));
-            }
-            return View(course);
-        }
-        [HttpGet]
+		[HttpGet]
+		public IActionResult Create()
+		{
+			ViewBag.Instructors = _courseService.GetInstructorsSelectList();
+			return View();
+		}
+
+		[HttpPost]
+		public IActionResult Create(CreateCourseVM vm)
+		{
+			if (ModelState.IsValid)
+			{
+				var result = _courseService.Add(vm);
+				if (!result)
+				{
+					ModelState.AddModelError("Name", "Course name already exists.");
+					ViewBag.Instructors = _courseService.GetInstructorsSelectList();
+					return View(vm);
+				}
+
+				TempData["SuccessMessage"] = "Course has been created successfully!";
+				return RedirectToAction(nameof(Index));
+			}
+
+			ViewBag.Instructors = _courseService.GetInstructorsSelectList();
+			return View(vm);
+		}
+
+
+		[HttpGet]
+		public IActionResult Edit(int id)
+		{
+			var course = _courseService.GetById(id);
+			if (course == null) return NotFound();
+
+			var vm = new EditCourseVM
+			{
+				Id = course.Id,
+				Name = course.Name,
+				Category = course.Category,
+				InstructorId = course.InstructorId
+			};
+
+			ViewBag.Instructors = _courseService.GetInstructorsSelectList();
+			return View(vm);
+		}
+
+		[HttpPost]
+		public IActionResult Edit(EditCourseVM vm)
+		{
+			if (ModelState.IsValid)
+			{
+				_courseService.Update(vm);
+				TempData["SuccessMessage"] = "Course has been updated successfully!";
+				return RedirectToAction(nameof(Index));
+			}
+			ViewBag.Instructors = _courseService.GetInstructorsSelectList();
+			return View(vm);
+		}
+		[HttpGet]
         public IActionResult Delete(int id)
         {
             var course = _courseService.GetById(id);
             if (course == null) return NotFound();
-            return View(course);
-        }
+			TempData["SuccessMessage"] = "Course deleted successfully!";
+			return RedirectToAction(nameof(Index));
+		}
         [HttpPost,ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
             _courseService.Delete(id);
-            TempData["Success"] = "Course deleted successfully!";
+            TempData["SuccessMessage"] = "Course deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
         [HttpPost]

@@ -20,7 +20,8 @@ namespace ITIManagement.DAL.Repositories
         {
             var query = _context.Grades
                 .Include(g => g.Session)
-                .Include(g => g.Trainee)
+				.ThenInclude(s => s.Course)
+				.Include(g => g.Trainee)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(search))
@@ -43,7 +44,8 @@ namespace ITIManagement.DAL.Repositories
         {
             return _context.Grades
                 .Include(g => g.Session)
-                .Include(g => g.Trainee)
+				.ThenInclude(s => s.Course)
+				.Include(g => g.Trainee)
                 .FirstOrDefault(g => g.Id == id);
         }
 

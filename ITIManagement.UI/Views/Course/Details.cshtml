@@ -1,5 +1,6 @@
-﻿@using ITIManagement.DAL.Models
-@model Course
+﻿@using ITIManagement.BLL.ViewModels.CourseVM
+@using ITIManagement.DAL.Models
+@model CourseVM
 
 @{
     ViewData["Title"] = "Course Details";
@@ -19,7 +20,7 @@
                 <dd class="col-sm-9">@Model.Category</dd>
 
                 <dt class="col-sm-3">Instructor</dt>
-                <dd class="col-sm-9">@Model.Instructor?.Name (@Model.InstructorId)</dd>
+                <dd class="col-sm-9">@Model.InstructorName</dd>
             </dl>
 
             <div class="mt-3 d-flex gap-2">

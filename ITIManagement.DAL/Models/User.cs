@@ -22,7 +22,6 @@ namespace ITIManagement.DAL.Models
 
 		[Required]
 		[EmailAddress]
-		[Remote(action: "IsEmailAvailable", controller: "Users", AdditionalFields = "Id", ErrorMessage = "Email already exists.")]
 		public string Email { get; set; }=default!;
 
 		[Required]

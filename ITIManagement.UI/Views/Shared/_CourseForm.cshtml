@@ -1,0 +1,21 @@
+﻿@using ITIManagement.BLL.ViewModels.CourseVM
+@model BaseCourseVM
+<div class="mb-3">
+    <label asp-for="Name" class="form-label"></label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Category" class="form-label"></label>
+    <input asp-for="Category" class="form-control" />
+    <span asp-validation-for="Category" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="InstructorId" class="form-label">Instructor</label>
+    <select asp-for="InstructorId" class="form-select" asp-items="ViewBag.Instructors">
+        <option value="">-- Select Instructor --</option>
+    </select>
+    <span asp-validation-for="InstructorId" class="text-danger"></span>
+</div>

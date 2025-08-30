@@ -41,8 +41,9 @@ namespace ITIManagement.Web.Controllers
             if (ModelState.IsValid)
             {
                 _gradeService.RecordGrade(gradeVm);
-                return RedirectToAction("BySession", new { sessionId = gradeVm.SessionId });
-            }
+				TempData["SuccessMessage"] = "Grade recorded successfully!";
+				return RedirectToAction("AllGrades");
+			}
 
             // لو فيه خطأ نرجع نفس الفورم مع القيم
             ViewBag.Trainees = _userRepository.GetAll("", null,1, int.MaxValue)
@@ -74,8 +75,9 @@ namespace ITIManagement.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _gradeService.UpdateGrade(gradeVm); 
-                return RedirectToAction("AllGrades");
+                _gradeService.UpdateGrade(gradeVm);
+				TempData["SuccessMessage"] = "Grade updated successfully!";
+				return RedirectToAction("AllGrades");
             }
 
             ViewBag.Sessions = _sessionRepository.GetAll("", 1, int.MaxValue);
@@ -90,16 +92,17 @@ namespace ITIManagement.Web.Controllers
             var grade = _gradeService.GetAllGrades().FirstOrDefault(g => g.Id == id);
             if (grade == null)
                 return NotFound();
-
-            return View(grade);
+			TempData["SuccessMessage"] = "Grade deleted successfully!";
+			return View(grade);
         }
 
         // POST: Confirm Delete
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int Id)
         {
-            _gradeService.DeleteGrade(Id); 
-            return RedirectToAction("AllGrades");
+            _gradeService.DeleteGrade(Id);
+			TempData["SuccessMessage"] = "Grade deleted successfully!";
+			return RedirectToAction("AllGrades");
         }
         public IActionResult BySession(int? sessionId)
         {

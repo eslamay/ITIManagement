@@ -1,6 +1,7 @@
 ﻿using ITIManagement.DAL.Data;
 using ITIManagement.DAL.Interfaces;
 using ITIManagement.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,8 @@ namespace ITIManagement.DAL.Repositories
 
         public IEnumerable<Course> GetAll(string search, int pageNumber, int pageSize)
         {
-            return _context.Courses
-                .Where(c => string.IsNullOrEmpty(search) || c.Name.Contains(search))
+            return _context.Courses.Include(c => c.Instructor)
+				.Where(c => string.IsNullOrEmpty(search) || c.Name.Contains(search))
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
@@ -31,7 +32,7 @@ namespace ITIManagement.DAL.Repositories
 
         public Course GetById(int id)
             {
-                return _context.Courses.Find(id);
+                return _context.Courses.Include(c => c.Instructor).FirstOrDefault(c => c.Id == id);
             }
 
             public Course GetByName(string name)

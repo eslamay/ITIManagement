@@ -1,5 +1,6 @@
-﻿@using ITIManagement.DAL.Models
-@model Course
+﻿@using ITIManagement.BLL.ViewModels.CourseVM
+@using ITIManagement.DAL.Models
+@model EditCourseVM
 
 @{
     ViewData["Title"] = "Edit Course";
@@ -14,24 +15,7 @@
         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
         <input type="hidden" asp-for="Id" />
-
-        <div class="mb-3">
-            <label asp-for="Name" class="form-label"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="Category" class="form-label"></label>
-            <input asp-for="Category" class="form-control" />
-            <span asp-validation-for="Category" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="InstructorId" class="form-label"></label>
-            <input asp-for="InstructorId" class="form-control" type="number" />
-            <span asp-validation-for="InstructorId" class="text-danger"></span>
-        </div>
+        @Html.Partial("_CourseForm", Model)
 
         <div class="d-flex gap-2">
             <button type="submit" class="btn btn-success">Save</button>

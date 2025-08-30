@@ -4,6 +4,7 @@ using ITIManagement.DAL.Data;
 using ITIManagement.DAL.Interfaces;
 using ITIManagement.DAL.Models;
 using ITIManagement.DAL.Repositories;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
@@ -30,22 +31,50 @@ namespace ITIManagement.BLL.Services.CourseService
             return _context.Courses.Include(c => c.Instructor).ToList();
         }
 
-        public Course? GetById(int id)
+        public CourseVM? GetById(int id)
         {
-            return _courseRepository.GetById(id);
+            var course = _courseRepository.GetById(id);
+
+			return course != null ? new CourseVM
+			{
+				Id = course.Id,
+				Name = course.Name,
+				Category = course.Category,
+				InstructorName = course.Instructor != null ? course.Instructor.Name : "Not Assigned"
+			} : null;
         }
 
-        public void Add(Course course)
+        public bool Add(CreateCourseVM courseVM)
         {
-            _courseRepository.Add(course);
+
+			var existing = _courseRepository.GetByName(courseVM.Name);
+			if (existing != null)
+				return false;
+
+			var course = new Course
+			{
+				Name = courseVM.Name,
+				Category = courseVM.Category,
+				InstructorId = courseVM.InstructorId
+			};
+			_courseRepository.Add(course);
+
+			return true;
         }
 
-        public void Update(Course course)
-        {
-            _courseRepository.Update(course);
-        }
+		public void Update(EditCourseVM vm)
+		{
+			var course = _courseRepository.GetById(vm.Id);
+			if (course != null)
+			{
+				course.Name = vm.Name;
+				course.Category = vm.Category;
+				course.InstructorId = vm.InstructorId;
+				_courseRepository.Update(course);
+			}
+		}
 
-        public void Delete(int id)
+		public void Delete(int id)
         {
             _courseRepository.Delete(id);
         }
@@ -84,5 +113,17 @@ namespace ITIManagement.BLL.Services.CourseService
             }
         }
 
-    }
+		public IEnumerable<SelectListItem> GetInstructorsSelectList()
+		{
+			return _context.Users
+				.Where(u => u.Role == UserRole.Instructor)
+				.Select(u => new SelectListItem
+				{
+					Value = u.Id.ToString(),
+					Text = u.Name
+				})
+				.ToList();
+		}
+
+	}
 }

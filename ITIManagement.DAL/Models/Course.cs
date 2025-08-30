@@ -11,13 +11,12 @@ namespace ITIManagement.DAL.Models
 
 		[Required]
 		[StringLength(50, MinimumLength = 3)]
-        [Remote(action: "IsCourseNameAvailable", controller: "Courses", ErrorMessage = "Course name already exists.")]
         public string Name { get; set; }=default!;
 
 		[Required]
 		public string Category { get; set; }=default!;
 
-		[Required]
+		
 		[ForeignKey("Instructor")]
 		public int? InstructorId { get; set; }
 		public User? Instructor { get; set; }
