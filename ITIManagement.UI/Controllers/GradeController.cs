@@ -38,22 +38,26 @@ namespace ITIManagement.Web.Controllers
         [HttpPost]
         public IActionResult Record(GradeVM gradeVm)
         {
+            if (_gradeService.GradeExists(gradeVm.TraineeId, gradeVm.SessionId))
+            {
+                ModelState.AddModelError("", "This trainee already has a grade for the selected session.");
+            }
+
             if (ModelState.IsValid)
             {
                 _gradeService.RecordGrade(gradeVm);
-				TempData["SuccessMessage"] = "Grade recorded successfully!";
-				return RedirectToAction("AllGrades");
-			}
+                TempData["SuccessMessage"] = "Grade recorded successfully!";
+                return RedirectToAction("AllGrades");
+            }
 
             // لو فيه خطأ نرجع نفس الفورم مع القيم
-            ViewBag.Trainees = _userRepository.GetAll("", null,1, int.MaxValue)
+            ViewBag.Trainees = _userRepository.GetAll("", null, 1, int.MaxValue)
                                               .Where(u => u.Role == UserRole.Trainee)
                                               .ToList();
             ViewBag.Sessions = _sessionRepository.GetAll("", 1, int.MaxValue).ToList();
 
             return View(gradeVm);
         }
-
         [HttpGet]
         public IActionResult Edit(int id)
         {

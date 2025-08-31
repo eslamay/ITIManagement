@@ -61,6 +61,8 @@ namespace ITIManagement.BLL.Services
             }).ToList();
         }
 
+
+
         public IEnumerable<GradeVM> GetAllGrades()
         {
             var grades = _gradeRepository.GetAll("", 1, int.MaxValue);
@@ -81,6 +83,11 @@ namespace ITIManagement.BLL.Services
         {
            
             _gradeRepository.Delete(id);
+        }
+        public bool GradeExists(int traineeId, int sessionId)
+        {
+            return _gradeRepository.GetAll("", 1, int.MaxValue)
+                             .Any(g => g.TraineeId == traineeId && g.SessionId == sessionId);
         }
         public GradeVM GetGradeById(int id)
         {

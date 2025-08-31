@@ -9,7 +9,8 @@ namespace ITIManagement.BLL.Services
         IEnumerable<GradeVM> GetGradesBySession(int sessionId);
         IEnumerable<GradeVM> GetGradesByTrainee(int traineeId);
         IEnumerable<GradeVM> GetAllGrades();
-       void UpdateGrade(GradeVM gradeVm);
+        bool GradeExists(int traineeId, int sessionId);
+        void UpdateGrade(GradeVM gradeVm);
         void DeleteGrade(int id);
         GradeVM GetGradeById(int id); 
     }
