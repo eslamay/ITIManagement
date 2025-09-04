@@ -1,4 +1,4 @@
-# Course Management System (ASP.NET Core MVC)
+# ITI Management System (ASP.NET Core MVC)
 
 ## 📌 Overview
 A structured **ASP.NET Core MVC** web application for managing **Courses, Sessions, Users, and Grades**, built with **Three-Tier Architecture** (Presentation Layer, Business Logic Layer, Data Access Layer) and the **Repository Pattern**.  
